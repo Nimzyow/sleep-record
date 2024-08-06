@@ -32,7 +32,6 @@ const resolvers = {
     },
     Mutation: {
         recordSleep: async (_parent: unknown, args: RecordSleepInput) => {
-            console.log(args)
             const { name, sleepDuration, sleptAt, gender } = args
             const user = await prisma.user.findFirst({
                 where: {
@@ -40,7 +39,7 @@ const resolvers = {
                 },
             })
             if (user) {
-                const sleep = await prisma.sleep.create({
+                await prisma.sleep.create({
                     data: {
                         userId: user.id,
                         sleepDuration,
