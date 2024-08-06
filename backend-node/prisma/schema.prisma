@@ -24,10 +24,10 @@ model User {
 
 model Sleep {
   id            String   @id @default(cuid())
-  sleepDuration Int
-  user          User     @relation(fields: [userId], references: [id])
-  userId        String
+  sleepDuration Float
   sleptAt       DateTime
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
 }
