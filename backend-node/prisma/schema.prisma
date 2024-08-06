@@ -17,10 +17,17 @@ model User {
   id        String   @id @default(cuid())
   name      String
   gender    String   @default("Female")
+  sleeps    Sleep[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model Sleep {
-  id String @id @default(cuid())
+  id            String   @id @default(cuid())
+  sleepDuration Int
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  sleptAt       DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 }
