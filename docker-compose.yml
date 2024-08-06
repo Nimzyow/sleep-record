@@ -1,12 +1,24 @@
 version: "3.8"
 
 services:
-  web:
-    build:
-      context: backend
-      target: builder
+  db:
+    image: postgres:14.7
+    environment:
+      POSTGRES_DB: "mydb?schema=public"
+      POSTGRES_USER: "johndoe"
+      POSTGRES_PASSWORD: "randompassword"
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
+      - 5432:5432
+      # web:
+      #  build:
+      #    context: backend
+      #    target: builder
+      #  ports:
       - "8000:8000"
+    networks:
+      - my_network
   next-app:
     container_name: frontend
     build:
@@ -34,6 +46,9 @@ services:
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
+volumes:
+  db_data:
+
 networks:
   my_network:
     external: true
