@@ -1,6 +1,12 @@
 version: "3.8"
 
 services:
+  web:
+    build:
+      context: backend
+      target: builder
+    ports:
+      - "8000:8000"
   next-app:
     container_name: frontend
     build:
