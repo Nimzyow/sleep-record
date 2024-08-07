@@ -27,7 +27,11 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         users: () => {
-            return prisma.user.findMany()
+            return prisma.user.findMany({
+                include: {
+                    sleeps: true,
+                },
+            })
         },
     },
     Mutation: {
@@ -46,12 +50,14 @@ const resolvers = {
                         sleptAt,
                     },
                 })
-                const allSleep = await prisma.sleep.findMany({
+                return await prisma.user.findFirst({
                     where: {
-                        userId: user.id,
+                        name,
+                    },
+                    include: {
+                        sleeps: true,
                     },
                 })
-                return { ...user, sleeps: allSleep }
             }
             const newUser = await prisma.user.create({
                 data: {
@@ -59,14 +65,14 @@ const resolvers = {
                     gender,
                 },
             })
-            const sleep = await prisma.sleep.create({
+            await prisma.sleep.create({
                 data: {
                     userId: newUser.id,
                     sleepDuration,
                     sleptAt,
                 },
             })
-            return { ...newUser, sleeps: [sleep] }
+            return await prisma.user.findFirst({ where: { id: newUser.id }, include: { sleeps: true } })
         },
     },
 }
