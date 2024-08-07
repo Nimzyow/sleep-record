@@ -1,6 +1,8 @@
 // pages/index.js
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import { SUBMIT_FORM } from "../graphql/mutations";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -10,6 +12,7 @@ export default function Home() {
     sleptAt: "",
     gender: "",
   });
+  const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
 
   const router = useRouter();
 
@@ -21,11 +24,20 @@ export default function Home() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    router.push("/chart");
+    try {
+      await submitForm({
+        variables: {
+          ...formData,
+          sleepDuration: parseInt(formData.sleepDuration),
+        },
+      });
+      router.push("/sleep-chart");
+    } catch (err) {
+      console.error(err);
+    }
   };
-
   return (
     <div className={styles.container}>
       <h1>Enter Your Details</h1>
