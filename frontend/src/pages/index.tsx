@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { SUBMIT_FORM } from "../graphql/mutations";
 import styles from "../styles/Home.module.css";
+import { useRecordSleepMutation } from "../../generatedTypes";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function Home() {
     sleptAt: "",
     gender: "",
   });
-  const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
+  const [submitForm, { data, loading, error }] = useRecordSleepMutation();
 
   const router = useRouter();
 

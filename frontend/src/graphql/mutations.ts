@@ -1,20 +1,26 @@
 import { gql } from "@apollo/client";
 
 export const SUBMIT_FORM = gql`
-  mutation SubmitForm(
+  mutation RecordSleep(
     $name: String!
-    $sleepDuration: Int!
+    $sleepDuration: Float!
     $sleptAt: String!
     $gender: String!
   ) {
-    submitForm(
+    recordSleep(
       name: $name
       sleepDuration: $sleepDuration
       sleptAt: $sleptAt
       gender: $gender
     ) {
-      success
-      message
+      gender
+      id
+      name
+      sleeps {
+        id
+        sleepDuration
+        sleptAt
+      }
     }
   }
 `;
