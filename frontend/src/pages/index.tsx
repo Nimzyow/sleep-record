@@ -90,7 +90,12 @@ export default function Home() {
             <option value="other">Other</option>
           </select>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </button>
+        {error && (
+          <p style={{ color: "red" }}>Submission error! {error.message}</p>
+        )}
       </form>
     </div>
   );
