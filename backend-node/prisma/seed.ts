@@ -10,6 +10,9 @@ const main = async () => {
 
     users.map(async (user) => {
         let date = new Date()
+        let dateUTC = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)
+        let dateTodayUTC = new Date(dateUTC)
+
         const generatedUser = await prisma.user.upsert({
             where: {
                 name: user.name,
@@ -21,7 +24,7 @@ const main = async () => {
             },
         })
         for (let i = 1; i < 8; i++) {
-            const pastDate = date.setDate(date.getDate() - 1)
+            const pastDate = dateTodayUTC.setDate(dateTodayUTC.getDate() - 1)
 
             await prisma.sleep.create({
                 data: {
