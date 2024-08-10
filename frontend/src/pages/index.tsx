@@ -1,10 +1,8 @@
 // pages/index.js
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useMutation } from "@apollo/client";
-import { SUBMIT_FORM } from "../graphql/mutations";
 import styles from "../styles/Home.module.css";
-import { useRecordSleepMutation } from "../../generatedTypes";
+import { useRecordSleepMutation } from "../generatedTypes";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -30,10 +28,12 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const date = new Date(formData.sleptAt);
       await submitForm({
         variables: {
           ...formData,
           sleepDuration: parseInt(formData.sleepDuration),
+          sleptAt: date.toISOString(),
         },
       });
       router.push("/sleep-chart");
@@ -42,7 +42,12 @@ export default function Home() {
     }
   };
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        marginTop: 25,
+      }}
+    >
       <h1>Enter Your Details</h1>
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>

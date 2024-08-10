@@ -4,10 +4,10 @@ documents:
   - "src/**/*.ts"
   - "src/**/*.tsx"
 generates:
-  ./graphql.schema.json:
+  ./src/graphql.schema.json:
     plugins:
       - "introspection"
-  ./generatedTypes.ts:
+  ./src/generatedTypes.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
