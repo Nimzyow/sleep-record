@@ -11,6 +11,9 @@ gql`
         sleepDuration
         sleptAt
       }
+      _count {
+        sleeps
+      }
     }
   }
 `;

@@ -42,12 +42,18 @@ export type Sleep = {
   sleptAt: Scalars['String']['output'];
 };
 
+export type SleepCount = {
+  __typename?: 'SleepCount';
+  sleeps: Scalars['Int']['output'];
+};
+
 export type User = {
   __typename?: 'User';
+  _count: SleepCount;
   gender: Scalars['String']['output'];
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  sleeps: Array<Maybe<Sleep>>;
+  sleeps: Array<Sleep>;
 };
 
 export type RecordSleepMutationVariables = Exact<{
@@ -58,12 +64,12 @@ export type RecordSleepMutationVariables = Exact<{
 }>;
 
 
-export type RecordSleepMutation = { __typename?: 'Mutation', recordSleep: { __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string } | null> } };
+export type RecordSleepMutation = { __typename?: 'Mutation', recordSleep: { __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }> } };
 
 export type GetAllUsersSleepRecordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersSleepRecordsQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string } | null> }> };
+export type GetAllUsersSleepRecordsQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }>, _count: { __typename?: 'SleepCount', sleeps: number } }> };
 
 
 export const RecordSleepDocument = gql`
@@ -124,6 +130,9 @@ export const GetAllUsersSleepRecordsDocument = gql`
       id
       sleepDuration
       sleptAt
+    }
+    _count {
+      sleeps
     }
   }
 }

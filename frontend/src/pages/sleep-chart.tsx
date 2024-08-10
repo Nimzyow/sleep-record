@@ -1,5 +1,5 @@
 import LineChart from "@/components/LineChart";
-import { useGetAllUsersSleepRecordsQuery } from "../generatedTypes";
+import { useGetAllUsersSleepRecordsQuery, User } from "../generatedTypes";
 import styles from "../styles/SleepChart.module.css";
 import { useState } from "react";
 import { CategoryScale } from "chart.js";
@@ -9,38 +9,11 @@ Chart.register(CategoryScale);
 
 export default function SleepChart() {
   const { data, loading, error } = useGetAllUsersSleepRecordsQuery();
-  const [selectedData, setSelectedData] = useState([
-    {
-      id: 1,
-      year: 2016,
-      userGain: 80000,
-      userLost: 823,
-    },
-    {
-      id: 2,
-      year: 2017,
-      userGain: 45677,
-      userLost: 345,
-    },
-    {
-      id: 3,
-      year: 2018,
-      userGain: 78888,
-      userLost: 555,
-    },
-    {
-      id: 4,
-      year: 2019,
-      userGain: 90000,
-      userLost: 4555,
-    },
-    {
-      id: 5,
-      year: 2020,
-      userGain: 4300,
-      userLost: 234,
-    },
-  ]);
+  const [selectedData, setSelectedData] = useState<User["sleeps"]>([]);
+
+  const handleClick = (sleeps: User["sleeps"]) => {
+    setSelectedData(sleeps);
+  };
 
   return (
     <div className={styles.container}>
@@ -50,7 +23,7 @@ export default function SleepChart() {
         </div>
       ) : (
         <div>
-          <LineChart chartData={selectedData} />
+          {selectedData.length == 0 ? <></> : <LineChart />}
           <table className={styles.table}>
             <thead>
               <tr>
@@ -62,10 +35,10 @@ export default function SleepChart() {
             <tbody>
               {data?.users.map((user, index) => {
                 return (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => handleClick(user.sleeps)}>
                     <td>{user.name}</td>
                     <td>{user.gender}</td>
-                    <td>{user.sleeps.length}</td>
+                    <td>{user._count.sleeps}</td>
                   </tr>
                 );
               })}

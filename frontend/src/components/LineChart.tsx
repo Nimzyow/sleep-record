@@ -7,7 +7,7 @@ type ChartData = {
   userGain: number;
   userLost: number;
 };
-const LineChart = ({ chartData }: { chartData: ChartData[] }) => {
+const LineChart = () => {
   function getLast7Days() {
     const dates = [];
     const today = new Date();

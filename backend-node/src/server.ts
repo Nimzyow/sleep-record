@@ -42,7 +42,11 @@ const resolvers = {
                         skip: 0,
                         take: -7,
                     },
-                    _count: true,
+                    _count: {
+                        select: {
+                            sleeps: true, // Have to query count like this to get all entries of sleep, otherwise we'll always get 7.
+                        },
+                    },
                 },
             })
         },
