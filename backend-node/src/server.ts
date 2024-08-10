@@ -35,7 +35,13 @@ const resolvers = {
         users: async () => {
             return await prisma.user.findMany({
                 include: {
-                    sleeps: true,
+                    sleeps: {
+                        orderBy: {
+                            sleptAt: "asc",
+                        },
+                        skip: 0,
+                        take: -7,
+                    },
                     _count: true,
                 },
             })
