@@ -19,15 +19,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-
-    # Set environment variables directly in the docker-compose file
-    # environment:
-    #  ENV_VARIABLE: ${ENV_VARIABLE}
-    #  NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
-
-    # Set environment variables based on the .env file
-    # env_file:
-    #  - .env
     volumes:
       - ./frontend:/app
     restart: always
@@ -35,11 +26,6 @@ services:
       - 3000:3000
     networks:
       - my_network
-
-  # Add more containers below (nginx, postgres, etc.)
-
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
 
 networks:
   my_network:
