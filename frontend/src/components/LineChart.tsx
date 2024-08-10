@@ -18,18 +18,17 @@ const LineChart = ({ chartData }: { chartData: ChartData[] }) => {
       dates.push(pastDate.toISOString().split("T")[0]);
     }
 
-    return dates;
+    return dates.reverse();
   }
 
   return (
     <div className="chart-container">
-      <h2 style={{ textAlign: "center" }}>Line Chart</h2>
       <Line
         data={{
           labels: getLast7Days(),
           datasets: [
             {
-              label: "Users Gained ",
+              label: "Sleep record",
               data: [1, 2, 3, 4, 5, 6, 7],
               borderColor: "black",
               borderWidth: 2,
@@ -40,7 +39,7 @@ const LineChart = ({ chartData }: { chartData: ChartData[] }) => {
           plugins: {
             title: {
               display: true,
-              text: "Users Gained between 2016-2020",
+              text: "User Sleep record",
             },
             legend: {
               display: false,
