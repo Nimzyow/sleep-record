@@ -2,7 +2,10 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
-import { useRecordSleepMutation } from "../generatedTypes";
+import {
+  GetAllUsersSleepRecordsDocument,
+  useRecordSleepMutation,
+} from "../generatedTypes";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -11,7 +14,9 @@ export default function Home() {
     sleptAt: "",
     gender: "",
   });
-  const [submitForm, { data, loading, error }] = useRecordSleepMutation();
+  const [submitForm, { data, loading, error }] = useRecordSleepMutation({
+    refetchQueries: [{ query: GetAllUsersSleepRecordsDocument }],
+  });
 
   const router = useRouter();
 
@@ -48,7 +53,7 @@ export default function Home() {
         marginTop: 25,
       }}
     >
-      <h1>Enter Your Details</h1>
+      <h1>Enter your sleep record</h1>
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label htmlFor="name">Name:</label>
@@ -94,9 +99,9 @@ export default function Home() {
             required
           >
             <option value="">Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <button type="submit" className={styles.button} disabled={loading}>
