@@ -11,10 +11,16 @@ export default function SleepChart() {
   const { data, loading, error } = useGetAllUsersSleepRecordsQuery();
   const [selectedData, setSelectedData] = useState<User["sleeps"]>([]);
   const [username, setUsername] = useState<string>("");
+  const [selectedRow, setSelectedRow] = useState<number>(-1);
 
-  const handleClick = (sleeps: User["sleeps"], username: string) => {
+  const handleClick = (
+    sleeps: User["sleeps"],
+    username: string,
+    selectedRow: number
+  ) => {
     setUsername(username);
     setSelectedData(sleeps);
+    setSelectedRow(selectedRow);
   };
 
   return (
@@ -43,7 +49,12 @@ export default function SleepChart() {
                 return (
                   <tr
                     key={index}
-                    onClick={() => handleClick(user.sleeps, user.name)}
+                    onClick={() => handleClick(user.sleeps, user.name, index)}
+                    style={{
+                      backgroundColor: selectedRow == index ? "blue" : "",
+                      color: selectedRow == index ? "white" : "black",
+                      cursor: "pointer",
+                    }}
                   >
                     <td>{user.name}</td>
                     <td>{user.gender}</td>
