@@ -1,13 +1,9 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { User } from "../generatedTypes";
 
-type ChartData = {
-  id: number;
-  year: number;
-  userGain: number;
-  userLost: number;
-};
-const LineChart = () => {
+const LineChart = ({ sleeps }: { sleeps: User["sleeps"] }) => {
+  console.log(sleeps);
   function getLast7Days() {
     const dates = [];
     const today = new Date();
@@ -25,7 +21,9 @@ const LineChart = () => {
     <div className="chart-container">
       <Line
         data={{
-          labels: getLast7Days(),
+          labels: sleeps.map((sleep) =>
+            new Date(Number(sleep.sleptAt)).toDateString()
+          ),
           datasets: [
             {
               label: "Sleep record",

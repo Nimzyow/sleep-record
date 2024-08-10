@@ -23,7 +23,11 @@ export default function SleepChart() {
         </div>
       ) : (
         <div>
-          {selectedData.length == 0 ? <></> : <LineChart />}
+          {selectedData.length == 0 ? (
+            <></>
+          ) : (
+            <LineChart sleeps={selectedData} />
+          )}
           <table className={styles.table}>
             <thead>
               <tr>
