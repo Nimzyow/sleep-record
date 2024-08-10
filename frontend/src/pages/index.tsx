@@ -75,11 +75,12 @@ export default function Home() {
         <div className={styles.formGroup}>
           <label htmlFor="sleptAt">Slept At:</label>
           <input
-            type="datetime-local"
+            type="date"
             id="sleptAt"
             name="sleptAt"
             value={formData.sleptAt}
             onChange={handleChange}
+            max={new Date().toISOString().split("T")[0]}
             required
           />
         </div>
