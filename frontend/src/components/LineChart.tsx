@@ -9,20 +9,6 @@ const LineChart = ({
   sleeps: User["sleeps"];
   username: string;
 }) => {
-  console.log(sleeps);
-  function getLast7Days() {
-    const dates = [];
-    const today = new Date();
-
-    for (let i = 0; i < 7; i++) {
-      const pastDate = new Date();
-      pastDate.setDate(today.getDate() - i);
-      dates.push(pastDate.toISOString().split("T")[0]);
-    }
-
-    return dates.reverse();
-  }
-
   return (
     <div className="chart-container">
       <Line
