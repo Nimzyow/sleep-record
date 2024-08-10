@@ -74,6 +74,7 @@ export default function Home() {
             name="sleepDuration"
             value={formData.sleepDuration}
             onChange={handleChange}
+            min={0}
             required
           />
         </div>
