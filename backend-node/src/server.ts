@@ -30,29 +30,15 @@ const typeDefs = `#graphql
   }
 `
 
-const getLast7Days = () => {
-    const dates = []
-    const today = new Date()
-
-    for (let i = 0; i < 7; i++) {
-        const pastDate = new Date()
-        pastDate.setDate(today.getDate() - i)
-        dates.push(pastDate.toISOString().split("T")[0])
-    }
-
-    return dates.reverse()
-}
-
 const resolvers = {
     Query: {
         users: async () => {
-            const users = await prisma.user.findMany({
+            return await prisma.user.findMany({
                 include: {
                     sleeps: true,
                     _count: true,
                 },
             })
-            return users
         },
     },
     Mutation: {

@@ -8,8 +8,7 @@ services:
       context: ./backend-node
       dockerfile: Dockerfile
     volumes:
-      - ./backend-node/src:/app/src
-      - ./backend-node/public:/app/public
+      - ./backend-node:/app
     restart: always
     ports:
       - 4000:4000
@@ -30,8 +29,7 @@ services:
     # env_file:
     #  - .env
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
+      - ./frontend:/app
     restart: always
     ports:
       - 3000:3000
@@ -46,3 +44,7 @@ services:
 networks:
   my_network:
     external: true
+
+volumes:
+  backend-node:
+  frontend:
