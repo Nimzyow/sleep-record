@@ -60,6 +60,11 @@ export type RecordSleepMutationVariables = Exact<{
 
 export type RecordSleepMutation = { __typename?: 'Mutation', recordSleep: { __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string } | null> } };
 
+export type GetAllUsersSleepRecordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersSleepRecordsQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string } | null> }> };
+
 
 export const RecordSleepDocument = gql`
     mutation RecordSleep($name: String!, $sleepDuration: Float!, $sleptAt: String!, $gender: String!) {
@@ -109,3 +114,49 @@ export function useRecordSleepMutation(baseOptions?: Apollo.MutationHookOptions<
 export type RecordSleepMutationHookResult = ReturnType<typeof useRecordSleepMutation>;
 export type RecordSleepMutationResult = Apollo.MutationResult<RecordSleepMutation>;
 export type RecordSleepMutationOptions = Apollo.BaseMutationOptions<RecordSleepMutation, RecordSleepMutationVariables>;
+export const GetAllUsersSleepRecordsDocument = gql`
+    query getAllUsersSleepRecords {
+  users {
+    gender
+    id
+    name
+    sleeps {
+      id
+      sleepDuration
+      sleptAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllUsersSleepRecordsQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersSleepRecordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersSleepRecordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersSleepRecordsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllUsersSleepRecordsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>(GetAllUsersSleepRecordsDocument, options);
+      }
+export function useGetAllUsersSleepRecordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>(GetAllUsersSleepRecordsDocument, options);
+        }
+export function useGetAllUsersSleepRecordsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>(GetAllUsersSleepRecordsDocument, options);
+        }
+export type GetAllUsersSleepRecordsQueryHookResult = ReturnType<typeof useGetAllUsersSleepRecordsQuery>;
+export type GetAllUsersSleepRecordsLazyQueryHookResult = ReturnType<typeof useGetAllUsersSleepRecordsLazyQuery>;
+export type GetAllUsersSleepRecordsSuspenseQueryHookResult = ReturnType<typeof useGetAllUsersSleepRecordsSuspenseQuery>;
+export type GetAllUsersSleepRecordsQueryResult = Apollo.QueryResult<GetAllUsersSleepRecordsQuery, GetAllUsersSleepRecordsQueryVariables>;
