@@ -28,20 +28,22 @@ const resolvers = {
           },
         })
       }
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          gender,
-        },
+      return prisma.$transaction(async (tx) => {
+        const newUser = await prisma.user.create({
+          data: {
+            name,
+            gender,
+          },
+        })
+        await prisma.sleep.create({
+          data: {
+            userId: newUser.id,
+            sleepDuration,
+            sleptAt,
+          },
+        })
+        return await prisma.user.findFirst({ where: { id: newUser.id }, include: { sleeps: true } })
       })
-      await prisma.sleep.create({
-        data: {
-          userId: newUser.id,
-          sleepDuration,
-          sleptAt,
-        },
-      })
-      return await prisma.user.findFirst({ where: { id: newUser.id }, include: { sleeps: true } })
     },
   },
 }
