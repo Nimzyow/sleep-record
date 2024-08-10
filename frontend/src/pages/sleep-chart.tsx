@@ -10,8 +10,10 @@ Chart.register(CategoryScale);
 export default function SleepChart() {
   const { data, loading, error } = useGetAllUsersSleepRecordsQuery();
   const [selectedData, setSelectedData] = useState<User["sleeps"]>([]);
+  const [username, setUsername] = useState<string>("");
 
-  const handleClick = (sleeps: User["sleeps"]) => {
+  const handleClick = (sleeps: User["sleeps"], username: string) => {
+    setUsername(username);
     setSelectedData(sleeps);
   };
 
@@ -26,7 +28,7 @@ export default function SleepChart() {
           {selectedData.length == 0 ? (
             <></>
           ) : (
-            <LineChart sleeps={selectedData} />
+            <LineChart sleeps={selectedData} username={username} />
           )}
           <table className={styles.table}>
             <thead>
@@ -39,7 +41,10 @@ export default function SleepChart() {
             <tbody>
               {data?.users.map((user, index) => {
                 return (
-                  <tr key={index} onClick={() => handleClick(user.sleeps)}>
+                  <tr
+                    key={index}
+                    onClick={() => handleClick(user.sleeps, user.name)}
+                  >
                     <td>{user.name}</td>
                     <td>{user.gender}</td>
                     <td>{user._count.sleeps}</td>

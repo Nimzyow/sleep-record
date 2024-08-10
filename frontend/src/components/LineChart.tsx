@@ -2,7 +2,13 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 import { User } from "../generatedTypes";
 
-const LineChart = ({ sleeps }: { sleeps: User["sleeps"] }) => {
+const LineChart = ({
+  sleeps,
+  username,
+}: {
+  sleeps: User["sleeps"];
+  username: string;
+}) => {
   console.log(sleeps);
   function getLast7Days() {
     const dates = [];
@@ -27,7 +33,7 @@ const LineChart = ({ sleeps }: { sleeps: User["sleeps"] }) => {
           datasets: [
             {
               label: "Sleep record",
-              data: [1, 2, 3, 4, 5, 6, 7],
+              data: sleeps.map((sleep) => sleep.sleepDuration),
               borderColor: "black",
               borderWidth: 2,
             },
@@ -37,10 +43,15 @@ const LineChart = ({ sleeps }: { sleeps: User["sleeps"] }) => {
           plugins: {
             title: {
               display: true,
-              text: "User Sleep record",
+              text: `${username}'s Sleep record`,
             },
             legend: {
               display: false,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
             },
           },
         }}
