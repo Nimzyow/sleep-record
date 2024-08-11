@@ -15,5 +15,7 @@ COPY . .
 EXPOSE 4000:4000
 
 RUN npx prisma generate
+RUN npx prisma migrate dev
+RUN yarn run seed
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "yarn", "run", "dev" ]
