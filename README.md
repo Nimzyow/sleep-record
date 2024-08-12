@@ -152,3 +152,5 @@ I chose this tech stack for several reasons:
 * Add user authentication and authorization.
 * Implement CI/CD pipelines.
 * Optimize Dockerfile for smaller image sizes.
+* Better exception handling through try catch
+* Returning useful error types to frontend. Example: if user somehow manages to send a future date for sleep record, a useful error message should form part of the GraphQL response.
