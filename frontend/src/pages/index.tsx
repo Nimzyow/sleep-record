@@ -18,8 +18,6 @@ export default function Home() {
     refetchQueries: [{ query: GetAllUsersSleepRecordsDocument }],
   });
 
-  const router = useRouter();
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -41,7 +39,6 @@ export default function Home() {
           sleptAt: date.toISOString(),
         },
       });
-      router.push("/sleep-chart");
     } catch (err) {
       console.error(err);
     }
@@ -108,6 +105,11 @@ export default function Home() {
         <button type="submit" className={styles.button} disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
         </button>
+        {data?.recordSleep.__typename == "UserInputError" && (
+          <div>
+            <p style={{ color: "red" }}>{data.recordSleep.message}</p>
+          </div>
+        )}
         {error && (
           <p style={{ color: "red" }}>Submission error! {error.message}</p>
         )}

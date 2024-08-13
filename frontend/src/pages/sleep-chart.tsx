@@ -45,23 +45,24 @@ export default function SleepChart() {
               </tr>
             </thead>
             <tbody>
-              {data?.users.map((user, index) => {
-                return (
-                  <tr
-                    key={index}
-                    onClick={() => handleClick(user.sleeps, user.name, index)}
-                    style={{
-                      backgroundColor: selectedRow == index ? "blue" : "",
-                      color: selectedRow == index ? "white" : "black",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <td>{user.name}</td>
-                    <td>{user.gender}</td>
-                    <td>{user._count.sleeps}</td>
-                  </tr>
-                );
-              })}
+              {data?.users &&
+                data?.users.map((user, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      onClick={() => handleClick(user.sleeps, user.name, index)}
+                      style={{
+                        backgroundColor: selectedRow == index ? "blue" : "",
+                        color: selectedRow == index ? "white" : "black",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <td>{user.name}</td>
+                      <td>{user.gender}</td>
+                      <td>{user._count.sleeps}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

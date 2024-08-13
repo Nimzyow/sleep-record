@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client"
+import { PrismaClient, User, Prisma } from "@prisma/client"
 import Joi from "joi"
 import { isBefore } from "date-fns"
 
@@ -52,12 +52,15 @@ const createSleepRecord = async (userId: string, sleepDuration: number, sleptAt:
 
 const resolvers = {
   RecordSleepResult: {
-    __resolveType(obj: User | { field: string; message: string }) {
+    __resolveType(obj: User | { field: string; message: string } | { message: string }) {
       if ("id" in obj) {
         return "User"
       }
       if ("field" in obj && "message" in obj) {
         return "UserInputError"
+      }
+      if ("message" in obj) {
+        return "Error"
       }
       return null
     },
@@ -74,20 +77,32 @@ const resolvers = {
           message: `Validation error: ${error.details.map((detail) => detail.message).join(", ")}`,
         }
       }
-
-      const user = await getUser(name)
-      if (user) {
-        await createSleepRecord(user.id, sleepDuration, sleptAt)
-        return await getUser(name)
+      try {
+        const user = await getUser(name)
+        if (user) {
+          await createSleepRecord(user.id, sleepDuration, sleptAt)
+          return await getUser(name)
+        }
+        const newUser = await prisma.user.create({
+          data: {
+            name,
+            gender,
+          },
+        })
+        await createSleepRecord(newUser.id, sleepDuration, sleptAt)
+        return await getUser(newUser.name)
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P1001") {
+            return {
+              message: "Can't reach database server",
+            }
+          }
+        }
+        return {
+          message: "An unknown error has occured",
+        }
       }
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          gender,
-        },
-      })
-      await createSleepRecord(newUser.id, sleepDuration, sleptAt)
-      return await getUser(newUser.name)
     },
   },
 }

@@ -19,7 +19,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  recordSleep: User;
+  recordSleep: RecordSleepResult;
 };
 
 
@@ -32,8 +32,10 @@ export type MutationRecordSleepArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  users: Array<User>;
+  users?: Maybe<Array<User>>;
 };
+
+export type RecordSleepResult = User | UserInputError;
 
 export type Sleep = {
   __typename?: 'Sleep';
@@ -56,37 +58,52 @@ export type User = {
   sleeps: Array<Sleep>;
 };
 
+export type UserInputError = {
+  __typename?: 'UserInputError';
+  field: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+};
+
 export type RecordSleepMutationVariables = Exact<{
   name: Scalars['String']['input'];
-  sleepDuration: Scalars['Float']['input'];
+  sleepDuration?: InputMaybe<Scalars['Float']['input']>;
   sleptAt: Scalars['String']['input'];
   gender: Scalars['String']['input'];
 }>;
 
 
-export type RecordSleepMutation = { __typename?: 'Mutation', recordSleep: { __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }> } };
+export type RecordSleepMutation = { __typename?: 'Mutation', recordSleep: { __typename?: 'User', id: string, name: string, gender: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }>, _count: { __typename?: 'SleepCount', sleeps: number } } | { __typename?: 'UserInputError', message: string, field: string } };
 
 export type GetAllUsersSleepRecordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersSleepRecordsQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }>, _count: { __typename?: 'SleepCount', sleeps: number } }> };
+export type GetAllUsersSleepRecordsQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', gender: string, id: string, name: string, sleeps: Array<{ __typename?: 'Sleep', id?: string | null, sleepDuration: number, sleptAt: string }>, _count: { __typename?: 'SleepCount', sleeps: number } }> | null };
 
 
 export const RecordSleepDocument = gql`
-    mutation RecordSleep($name: String!, $sleepDuration: Float!, $sleptAt: String!, $gender: String!) {
+    mutation RecordSleep($name: String!, $sleepDuration: Float, $sleptAt: String!, $gender: String!) {
   recordSleep(
     name: $name
     sleepDuration: $sleepDuration
     sleptAt: $sleptAt
     gender: $gender
   ) {
-    gender
-    id
-    name
-    sleeps {
+    ... on User {
       id
-      sleepDuration
-      sleptAt
+      name
+      gender
+      sleeps {
+        id
+        sleepDuration
+        sleptAt
+      }
+      _count {
+        sleeps
+      }
+    }
+    ... on UserInputError {
+      message
+      field
     }
   }
 }

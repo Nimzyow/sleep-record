@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const SUBMIT_FORM = gql`
   mutation RecordSleep(
     $name: String!
-    $sleepDuration: Float!
+    $sleepDuration: Float
     $sleptAt: String!
     $gender: String!
   ) {
@@ -13,13 +13,22 @@ export const SUBMIT_FORM = gql`
       sleptAt: $sleptAt
       gender: $gender
     ) {
-      gender
-      id
-      name
-      sleeps {
+      ... on User {
         id
-        sleepDuration
-        sleptAt
+        name
+        gender
+        sleeps {
+          id
+          sleepDuration
+          sleptAt
+        }
+        _count {
+          sleeps
+        }
+      }
+      ... on UserInputError {
+        message
+        field
       }
     }
   }
