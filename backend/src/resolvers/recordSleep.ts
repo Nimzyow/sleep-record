@@ -5,7 +5,7 @@ import { isBefore } from "date-fns"
 const prisma = new PrismaClient()
 
 const recordSleepSchema = Joi.object({
-  name: Joi.string().min(1).required(),
+  name: Joi.string().min(3).required(),
   sleepDuration: Joi.number().greater(0).required(), // Must be greater than 0
   sleptAt: Joi.string()
     .isoDate()
