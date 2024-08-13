@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const main = async () => {
+  await prisma.sleep.deleteMany()
+  await prisma.user.deleteMany()
+
   const users: { name: string; gender: "Male" | "Female" | "Other" }[] = [
     { name: "Carol Smith", gender: "Female" },
     { name: "John Doe", gender: "Male" },

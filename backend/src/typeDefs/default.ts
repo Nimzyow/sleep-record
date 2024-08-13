@@ -1,4 +1,9 @@
 export default `#graphql
+  type UserInputError {
+    message: String!
+    field: String!
+  }
+
   type Sleep {
     id: String
     sleepDuration: Float!
@@ -17,10 +22,13 @@ export default `#graphql
     _count: SleepCount!
   }
 
+  union RecordSleepResult = User | UserInputError
+
   type Query {
-    users: [User!]!
+    users: [User!]
   }
+
   type Mutation {
-    recordSleep(name: String!, sleepDuration: Float, sleptAt: String!, gender: String!): User!
+    recordSleep(name: String!, sleepDuration: Float, sleptAt: String!, gender: String!): RecordSleepResult!
   }
 `
