@@ -1,3 +1,4 @@
+# Currently fixing bug with docker compose
 version: "3.8"
 
 services:
