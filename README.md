@@ -4,26 +4,37 @@
 - [Project Name](#project-name)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Application](#application)
   - [Tech Stack](#tech-stack)
     - [Backend](#backend)
     - [Frontend](#frontend)
-    - [Tooling](#tooling)
   - [Directory Structure](#directory-structure)
   - [Getting Started](#getting-started)
-    - [With Docker Compose](#with-docker-compose)
-  - [Without Docker Compose](#without-docker-compose)
     - [Backend](#backend-1)
     - [Frontend](#frontend-1)
   - [Seeding the Database](#seeding-the-database)
-    - [Seeding with docker compose](#seeding-with-docker-compose)
-    - [Seeding without docker compose](#seeding-without-docker-compose)
-    - [Pre-Push Hook](#pre-push-hook)
     - [Notes](#notes)
     - [Why This Tech Stack](#why-this-tech-stack)
     - [Future Enhancements](#future-enhancements)
 
 ## Introduction
 This is a full-stack project built using Node.js and TypeScript. The backend is a GraphQL server built with Apollo Server, TypeScript, and Prisma ORM, while the frontend is a Next.js application that interacts with the backend using Apollo Client. The project is fully containerized using Docker Compose, making it easy to set up and run in any environment.
+
+## Application
+
+![Screenshot of the backend](images/api.png)
+You'll see the GraphQL server on http://localhost:4000
+
+![Screenshot of the frontend 1](images/frontend-1.png)
+You'll see the frontend web app on http://localhost:3000 . Fill in the information and submit
+
+![Screenshot of the frontend 2](images/frontend-2.png)
+When you click on Sleep Chart
+
+![Screenshot of the frontend 3](images/frontend-3.png)
+You'll see rows of users. Click on a user to see their last 7 day entries on the chart
+
+![Screenshot of the frontend 4](images/frontend-4.png)
 
 ## Tech Stack
 
@@ -40,10 +51,6 @@ This is a full-stack project built using Node.js and TypeScript. The backend is 
 - **Apollo Client**: GraphQL client for React applications
 - **Codegen**: Generates TypeScript types from GraphQL schema
 
-### Tooling
-- **Docker Compose**: To containerize and orchestrate the services
-- **Pre-Push Hook**: Triggers Codegen and TypeScript type checks before code is pushed
-
 ## Directory Structure
 
 ```bash
@@ -59,23 +66,11 @@ This is a full-stack project built using Node.js and TypeScript. The backend is 
 ├── Dockerfile
 ├── package.json
 └── tsconfig.json
-docker-compose.yml
 README.md
 ```
 
 ## Getting Started
 
-### With Docker Compose
-To start the project using Docker Compose, run the following command from the root of the project:
-
-```bash
-docker-compose up --build
-```
-
-Backend GraphQL Server: http://localhost:4000<br/>
-Frontend Next.js App: http://localhost:3000
-
-## Without Docker Compose
 ###  Backend
 1 - Navigate to the backend directory:
 ```bash
@@ -112,29 +107,14 @@ yarn dev
 ```
 ## Seeding the Database
 
-### Seeding with docker compose
-
-Find the backend container name using docker ps.
-Run the following command:
-```bash
-docker exec -it <container-name> /bin/sh
-```
-Inside the container, run:
-```bash
-yarn run seed
-```
-
-### Seeding without docker compose
-
 cd into backend directory
 ```bash
 yarn run seed
 ```
 
-### Pre-Push Hook
-This project has a pre-push hook set up that automatically runs code generation and TypeScript type checks before any code is pushed to the repository. This ensures that the frontend TypeScript types are always in sync with the backend GraphQL schema.
 
 ### Notes
+Docker compose method currently has a bug and fix is being worked on.
 Tests are not complete yet but are currently being worked on.
 Consider adding CI/CD pipelines to automate testing and deployment.
 Explore using other databases for production environments.
@@ -148,6 +128,7 @@ I chose this tech stack for several reasons:
 * Docker Compose: Simplifies the setup process by containerizing the frontend and backend, ensuring a consistent development environment.
 
 ### Future Enhancements
+* Fix docker compose
 * Complete the testing suite for both backend and frontend.
 * Add user authentication and authorization.
 * Implement CI/CD pipelines.
