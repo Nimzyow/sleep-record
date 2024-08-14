@@ -105,6 +105,11 @@ export default function Home() {
         <button type="submit" className={styles.button} disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
         </button>
+        {data?.recordSleep.__typename == "User" && (
+          <div>
+            <p>Successfully added sleep record for {data.recordSleep.name}</p>
+          </div>
+        )}
         {data?.recordSleep.__typename == "UserInputError" && (
           <div>
             <p style={{ color: "red" }}>{data.recordSleep.message}</p>
